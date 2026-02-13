@@ -3,8 +3,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@/constants";
 import FixedBottomCTA from "@/components/FixedBottomCTA";
 import { FormProvider, useForm } from "react-hook-form";
-import hairlineWidth = StyleSheet.hairlineWidth;
 import NicknameInput from "@/components/NicknameInput";
+import { useNewcomer } from "@/hooks/useNewcomer";
+import { router } from "expo-router";
 
 interface FormValue {
   nickname: string;
@@ -16,9 +17,19 @@ export default function NicknameScreen() {
       nickname: "",
     },
   });
+  const { setNicknameMutation } = useNewcomer();
 
   const onSubmit = async (formValue: FormValue) => {
     const { nickname } = formValue;
+
+    setNicknameMutation.mutate(
+      { nickname },
+      {
+        onSuccess: () => {
+          router.push("/profile/newcomer/birth-year");
+        },
+      },
+    );
   };
 
   return (
@@ -44,7 +55,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.SAND_110,
-    borderTopWidth: hairlineWidth,
+    borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: colors.GRAY_700,
   },
   content: {

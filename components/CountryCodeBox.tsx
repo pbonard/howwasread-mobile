@@ -10,12 +10,6 @@ import {
 import { Controller, useFormContext } from "react-hook-form";
 import { CountryCode, getCountryCallingCode } from "libphonenumber-js";
 import { colors } from "@/constants";
-import { getLocales } from "expo-localization";
-
-type FormValue = {
-  countryCode: string;
-  phoneNumber: string;
-};
 
 type CountryItem = {
   cca2: string;
@@ -49,7 +43,7 @@ function buildCountryItems(): CountryItem[] {
 }
 
 export default function CountryCodeBox() {
-  const { control } = useFormContext<FormValue>();
+  const { control } = useFormContext();
   const [modalVisible, setModalVisible] = useState(false);
   const [allCountries] = useState<CountryItem[]>(() => buildCountryItems());
 
@@ -65,12 +59,9 @@ export default function CountryCodeBox() {
     <Controller
       name="countryCode"
       control={control}
-      defaultValue={"KR"}
       render={({ field: { onChange, value } }) => {
         const selected = allCountries.find((c) => c.cca2 === value);
-        const display =
-          selected?.label ??
-          `+${getCountryCallingCode(getLocales()[0].regionCode as CountryCode) || 82}`;
+        const display = selected?.label ?? "+82";
         return (
           <>
             <Pressable onPress={openModal} style={styles.box}>
