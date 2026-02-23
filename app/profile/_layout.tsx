@@ -11,7 +11,7 @@ export default function ProfileLayout() {
         }}
       />
       <Stack.Screen
-        name="newcomer"
+        name="online"
         options={{
           title: "",
           headerShown: false,
