@@ -12,7 +12,7 @@ export default function NovelInput() {
       render={({ field: { onChange, value } }) => (
         <InputField
           variant="standard"
-          label="Novel"
+          label="Novel(optional)"
           placeholder="The Castle The Stranger Norwegian Wood"
           inputMode="text"
           returnKeyType="done"
