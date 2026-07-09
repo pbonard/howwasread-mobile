@@ -1,19 +1,19 @@
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@/constants";
-import FixedBottomCTA from "@/components/FixedBottomCTA";
 import { FormProvider, useForm } from "react-hook-form";
 import { useVerifyEmailOTP } from "@/hooks/useAuth";
 import { router } from "expo-router";
 import { getSecureAsync } from "@/db/storage";
 import Toast from "react-native-toast-message";
 import OTPInput from "@/components/auth/OTPInput";
+import CustomButton from "@/components/CustomButton";
 
 interface FormValue {
   otp: string;
 }
 
-export default function EmailScreen() {
+export default function EmailOTPScreen() {
   const verifyEmailOTPMutation = useVerifyEmailOTP();
 
   const emailOTPForm = useForm<FormValue>({
@@ -51,7 +51,7 @@ export default function EmailScreen() {
         <View style={styles.content}>
           <OTPInput />
         </View>
-        <FixedBottomCTA
+        <CustomButton
           label="Confirm"
           onPress={emailOTPForm.handleSubmit(onSubmit)}
           disabled={verifyEmailOTPMutation.isPending}

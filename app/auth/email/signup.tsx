@@ -1,12 +1,12 @@
 import { StyleSheet, View } from "react-native";
 import { FormProvider, useForm } from "react-hook-form";
-import FixedBottomCTA from "@/components/FixedBottomCTA";
 import EmailInput from "@/components/auth/EmailInput";
 import PasswordInput from "@/components/auth/PasswordInput";
 import PasswordConfirmInput from "@/components/auth/PasswordConfirmInput";
 import { useSignupWithEmail } from "@/hooks/useAuth";
 import { colors } from "@/constants";
 import { router } from "expo-router";
+import CustomButton from "@/components/CustomButton";
 
 interface FormValue {
   email: string;
@@ -35,10 +35,10 @@ export default function SignupScreen() {
       },
       {
         onSuccess: (data) => {
-          if(data.verificationId) {
+          if (data.verificationId) {
             router.replace("/auth/otp/email");
           }
-        }
+        },
       },
     );
   };
@@ -50,7 +50,7 @@ export default function SignupScreen() {
           <PasswordInput submitBehavior="submit" />
           <PasswordConfirmInput />
         </View>
-        <FixedBottomCTA
+        <CustomButton
           label="Sign up"
           onPress={emailSignupForm.handleSubmit(onSubmit)}
           disabled={signUpWithEmailMutation.isPending}
