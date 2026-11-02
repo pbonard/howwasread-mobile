@@ -6,4 +6,4 @@
 https://apps.apple.com/us/app/howwasread/id6783131522
 
 - android apk
-https://github.com/seaoferror/howwasread-mobile/releases/latest
+https://github.com/pbonard/howwasread-mobile/releases/latest
