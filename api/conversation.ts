@@ -213,7 +213,7 @@ export async function reportOfflineConversation(body: {
 }
 
 export async function getTurn(): Promise<GetTurnResponse> {
-  const { data } = await axiosInstance.get("/onlineconversation/turn");
+  const { data } = await axiosInstance.get("/chat/turn");
   return data;
 }
 
