@@ -211,7 +211,7 @@ export default function OnlineConversationScreen() {
   useEffect(() => {
     const joinConversation = async () => {
       ws.current = new WebSocket(
-        `wss://${process.env.EXPO_PUBLIC_API_URL}/onlineconversation/join?id=${conversationId}`,
+        `wss://${process.env.EXPO_PUBLIC_API_URL}/chat/call?id=${conversationId}`,
         undefined,
         {
           headers: {
@@ -224,7 +224,7 @@ export default function OnlineConversationScreen() {
         setIsVoice(true);
       };
       console.log(
-        `wss://${process.env.EXPO_PUBLIC_API_URL}/onlineconversation/join?id=${conversationId}`,
+        `wss://${process.env.EXPO_PUBLIC_API_URL}/chat/call?id=${conversationId}`,
       );
       localAudio.current = await mediaDevices.getUserMedia({
         audio: true,
