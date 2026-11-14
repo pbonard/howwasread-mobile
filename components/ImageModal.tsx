@@ -2,7 +2,7 @@ import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
-import { getKVStore } from "@/db/storage";
+import { getLocalFileUri } from "@/db/storage";
 
 interface ImageModalProps {
   imageContent: string | null;
@@ -35,7 +35,7 @@ export default function ImageModal({ imageContent, onClose }: ImageModalProps) {
             >
               <Image
                 style={styles.fullScreenImage}
-                source={getKVStore(imageContent)}
+                source={getLocalFileUri(imageContent)}
                 contentFit="contain"
                 cachePolicy="memory"
               />
