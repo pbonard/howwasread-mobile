@@ -8,7 +8,7 @@ import { Image } from "expo-image";
 import VideoMessage from "@/components/chat/VideoMessage";
 import VoiceMessage from "@/components/chat/VoiceMessage";
 import { useLocalSearchParams } from "expo-router";
-import { getKVStore, setKVStore } from "@/db/storage";
+import { getKVStore, getLocalFileUri, setKVStore } from "@/db/storage";
 import { useEffect, useState } from "react";
 import ImageModal from "@/components/ImageModal";
 import { useActionSheet } from "@expo/react-native-action-sheet";
@@ -166,7 +166,7 @@ export default function MessageItem({
                     >
                       <Image
                         style={styles.media}
-                        source={getKVStore(content)}
+                        source={getLocalFileUri(content)}
                         cachePolicy="memory"
                         priority="low"
                         onError={(event) => {
@@ -177,14 +177,14 @@ export default function MessageItem({
                   ))
                 ) : message.contentType === "audio" ? (
                   <VoiceMessage
-                    url={getKVStore(message.contents[0])}
+                    url={getLocalFileUri(message.contents[0])}
                     onLongPress={() => handleLongPress()}
                   />
                 ) : message.contentType === "video" ? (
                   message.contents.map((content, idx) => (
                     <VideoMessage
                       key={idx}
-                      url={getKVStore(content)}
+                      url={getLocalFileUri(content)}
                       onLongPress={() => handleLongPress()}
                     />
                   ))

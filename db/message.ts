@@ -146,8 +146,7 @@ export async function downloadFiles(m: MessagingResponse) {
   await Promise.all(
     srcs.map(async (src, idx) => src.write(await responses[idx].bytes())),
   );
-  const localUris = srcs.map((src) => src.uri);
-  m.contents.map((content, idx) => setKVStore(content, localUris[idx]));
+  m.contents.forEach((content, idx) => setKVStore(content, srcs[idx].name));
 }
 
 export async function deleteMessage(db: SQLiteDatabase, id: string) {

@@ -8,7 +8,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
-import { getKVStore } from "@/db/storage";
+import { getLocalFileUri } from "@/db/storage";
 
 import {
   Gesture,
@@ -151,7 +151,7 @@ export default function ReanimatedImageModal({
               <View style={styles.gestureContainer}>
                 <AnimatedImage
                   style={[styles.fullScreenImage, animatedStyle]}
-                  source={getKVStore(imageContent)}
+                  source={getLocalFileUri(imageContent)}
                   contentFit="contain"
                   cachePolicy="memory"
                 />
