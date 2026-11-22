@@ -137,9 +137,12 @@ function RootNavigator() {
       if (!cursor) {
         cursor = "00000000-0000-7000-8000-000000000000";
       }
-      const messages = await getRecentMessages(cursor);
-      if (messages && messages.length > 0) {
-        setKVStore("recentMessageId", messages[0].id);
+      // the server sends them room by room: oldest first, so the chat list puts the newest room on top
+      const messages = (await getRecentMessages(cursor)).sort((a, b) =>
+        a.id < b.id ? -1 : 1,
+      );
+      if (messages.length > 0) {
+        setKVStore("recentMessageId", messages[messages.length - 1].id);
         const myQuitMessages = messages.filter((m) => m.contentType === "quit");
         const myDeleteMessages = messages.filter(
           (m) => m.contentType === "delete",
