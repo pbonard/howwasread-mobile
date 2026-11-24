@@ -61,7 +61,7 @@ export default function MessageItem({
         options:
           message.fromId === (myProfile?.id ?? getKVStore("myId"))
             ? [`Delete`, "Cancel"]
-            : ["Delete", "Report and Delete", "Cancel"],
+            : ["Delete", "Block, Report and Delete", "Cancel"],
         cancelButtonIndex: 2,
         destructiveButtonIndex: 0,
       },

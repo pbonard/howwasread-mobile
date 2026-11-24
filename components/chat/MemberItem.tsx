@@ -18,7 +18,7 @@ export default function MemberItem({ id }: { id: string }) {
     id !== getKVStore("myId") &&
       showActionSheetWithOptions(
         {
-          options: ["Report", "Cancel"],
+          options: ["Block and Report", "Cancel"],
           destructiveButtonIndex: 0,
           cancelButtonIndex: 2,
         },
