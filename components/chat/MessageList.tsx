@@ -10,6 +10,21 @@ import { findNewMessage } from "@/db/message";
 import { useGetMyProfile } from "@/hooks/useProfile";
 import { getKVStore } from "@/db/storage";
 
+type RoomMessage = Omit<Message, "roomId">;
+
+function isBlockEvent(message: RoomMessage) {
+  return message.contentType === "block" || message.contentType === "unblock";
+}
+
+// newest first, without a block or unblock that repeats the one before it: reporting someone blocked blocks them again
+function withoutRepeatedBlocks(messages: RoomMessage[]) {
+  return messages.filter((message, index) => {
+    if (!isBlockEvent(message)) return true;
+    const before = messages.slice(index + 1).find(isBlockEvent);
+    return message.contentType !== before?.contentType;
+  });
+}
+
 export default function MessageList() {
   const db = useSQLiteContext();
   const { id: roomId } = useLocalSearchParams();
@@ -21,15 +36,15 @@ export default function MessageList() {
   const isGroup =
     (roomInfo?.type ?? getKVStore("type" + String(roomId))) === "group";
 
-  const [liveMessages, setLiveMessages] = useState<Omit<Message, "roomId">[]>(
-    [],
-  );
+  const [liveMessages, setLiveMessages] = useState<RoomMessage[]>([]);
   const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set());
 
   const allMessages = useMemo(() => {
     const fetchedMessages = data?.pages?.flat() || [];
-    return [...liveMessages, ...fetchedMessages].filter(
-      (m) => !deletedIds.has(m.id),
+    return withoutRepeatedBlocks(
+      [...liveMessages, ...fetchedMessages].filter(
+        (m) => !deletedIds.has(m.id),
+      ),
     );
   }, [data?.pages, liveMessages, deletedIds]);
 
@@ -38,7 +53,7 @@ export default function MessageList() {
       const newMessageRaw = await findNewMessage(db, event.rowId);
       if (!newMessageRaw) return;
       if (roomId !== uuidStringify(newMessageRaw.room_id)) return;
-      const newMessage: Omit<Message, "roomId"> = {
+      const newMessage: RoomMessage = {
         id: uuidStringify(newMessageRaw.id),
         fromId: uuidStringify(newMessageRaw.from_id),
         contentType: newMessageRaw.content_type,

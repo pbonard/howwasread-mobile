@@ -80,19 +80,12 @@ export default function ChatPreviewItem({
             if (roomType === "group" || preview.roomId === getKVStore("myId")) {
               return;
             }
-            if (!freshBlockcheck.didBlock) {
-              sendMessageMutation.mutate({
-                toIdType: roomType,
-                toId: preview.roomId,
-                contentType: "block",
-                contents: [],
-              });
-            }
-            await queryClient.invalidateQueries({
-              queryKey: [queryKey.CHAT, queryKey.CHECK_BLOCK],
-            });
+            // the server blocks them too
             await reportUser({
               id: preview.roomId,
+            });
+            await queryClient.invalidateQueries({
+              queryKey: [queryKey.CHAT, queryKey.CHECK_BLOCK],
             });
             Toast.show({
               type: "info",
